@@ -3,15 +3,20 @@ namespace application\controllers;
 
 class Controller {    
     protected $model;
-    private static $needLoginUrlArr = [
-        "/board/write", 
-        "/board/mod"
-    ];
+    private static $needLoginUrlArr = [];
 
     public function __construct($action, $model) {    
         if(!isset($_SESSION)) {
             session_start();
         }    
+        $urlPaths = getUrl();
+        foreach(static::$needLoginUrlArr as $url) {
+            if(strpos( $urlPaths, $url) === 0 && !isset($_SESSION[_LOGINUSER]) ) {
+                echo "권한이 없습니다.";
+                exit();
+            }
+        }
+
         $this->model = $model;
         $view = $this->$action();
         if(empty($view)) {
