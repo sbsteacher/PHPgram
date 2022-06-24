@@ -3,6 +3,8 @@ namespace application\libs;
 
 require_once "application/utils/UrlUtils.php";
 
+
+
 class Application{
     
     public $controller;
