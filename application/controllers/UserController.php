@@ -2,7 +2,9 @@
 namespace application\controllers;
 
 class UserController extends Controller {
-    public function signin() {
+
+    //로그인
+    public function signin() {        
         switch(getMethod()) {
             case _GET:
                 return "user/signin.php";
@@ -14,10 +16,14 @@ class UserController extends Controller {
                 if(!$dbUser || !password_verify($pw, $dbUser->pw)) {                                                        
                     return "redirect:signin?email={$email}&err";
                 }
+                $dbUser->pw = null;
+                $dbUser->regdt = null;
+                $this->flash(_LOGINUSER, $dbUser);
                 return "redirect:/feed/index";
             }
     }
 
+    //회원가입
     public function signup() {
         switch(getMethod()) {
             case _GET:
