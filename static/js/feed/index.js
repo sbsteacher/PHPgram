@@ -48,13 +48,7 @@
                         body: fData                       
                     }).then(res => res.json())
                         .then(myJson => {
-
-                            const closeBtn = modal.querySelector('.btn-close');
-                            closeBtn.click();
-
-                            if(feedObj && myJson.result) {
-                                feedObj.refreshList();
-                            }
+                           console.log(myJson);
                         });
                         
                 });
