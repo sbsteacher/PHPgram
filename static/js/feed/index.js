@@ -38,14 +38,14 @@
 
                     const fData = new FormData();
                     for(let i=0; i<files.length; i++) {
-                        fData.append('imgs', files[i]);
+                        fData.append('imgs[]', files[i]);
                     }
                     fData.append('ctnt', body.querySelector('textarea').value);
                     fData.append('location', body.querySelector('input[type=text]').value);
 
-                    fetch('/feed/reg', {
+                    fetch('/feed/rest', {
                         method: 'post',
-                        body: fData
+                        body: fData                       
                     }).then(res => res.json())
                         .then(myJson => {
 
@@ -56,6 +56,7 @@
                                 feedObj.refreshList();
                             }
                         });
+                        
                 });
             }
         });
