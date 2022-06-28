@@ -4,7 +4,7 @@
         const modal = document.querySelector('#newFeedModal');
         const body =  modal.querySelector('#id-modal-body');
         const frmElem = modal.querySelector('form');
-
+        const btnClose = modal.querySelector('.btn-close');
         //이미지 값이 변하면
         frmElem.imgs.addEventListener('change', function(e) {
             console.log(`length: ${e.target.files.length}`);
@@ -49,6 +49,10 @@
                     }).then(res => res.json())
                         .then(myJson => {
                            console.log(myJson);
+
+                           if(myJson.result) {                                
+                                btnClose.click();
+                           }
                         });
                         
                 });

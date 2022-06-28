@@ -20,20 +20,26 @@ class FeedController extends Controller {
                     "ctnt" => $_POST["ctnt"],
                     "iuser" => $iuser
                 ];                
-                //$ifeed = $this->model->insFeed($param);
+                $ifeed = $this->model->insFeed($param);
 
-                foreach($_FILES["imgs"]["name"] as $key => $value) {
-                    $file_name = explode(".", $value);
-                    $ext = end($file_name);
-                    $saveDirectory = _IMG_PATH . "/profile/" . $iuser;
+                $paramImg = [ "ifeed" => $ifeed ];
+                foreach($_FILES["imgs"]["name"] as $key => $originFileNm) {
+                                        
+                    $saveDirectory = _IMG_PATH . "/feed/" . $ifeed;
                     if(!is_dir($saveDirectory)) {
                         mkdir($saveDirectory, 0777, true);
                     }
                     $tempName = $_FILES['imgs']['tmp_name'][$key];
-                    move_uploaded_file($tempName, $saveDirectory . "/test." . $ext);
-                }
+                    $randomFileNm = getRandomFileNm($originFileNm);
+                    if(move_uploaded_file($tempName, $saveDirectory . "/" . $randomFileNm)) {
+                        //chmod($saveDirectory . "/test." . $ext, octdec("0666"));
+                        //chmod("C:/Apache24/PHPgram/static/img/profile/1/test." . $ext, 0755);
+                        $paramImg["img"] = $randomFileNm;
+                        $this->model->insFeedImg($paramImg);
+                    }
 
-                //return ["result" => $r];
+                }
+                return ["result" => 1];
         }
     }
 }
