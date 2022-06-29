@@ -88,12 +88,19 @@
             .then(res => res.json())
             .then(list => {
                 console.log(list);
-                this.hideLoading();
+                this.makeFeedList(list);                
             })
             .catch(e => {
                 console.error(e);
                 this.hideLoading();
             });
+        },
+        makeFeedList: function(list) {
+
+            this.hideLoading();
+        },
+        makeFeedItem: function(item) {
+
         },
 
         showLoading: function() { this.loadingElem.classList.remove('d-none'); },
