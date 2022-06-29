@@ -126,7 +126,27 @@
                 </div>
             `;
 
+            const divImgSwiper = document.createElement('div');
+            divContainer.appendChild(divImgSwiper);
+            divImgSwiper.className = 'swiper item_img';
+            divImgSwiper.innerHTML = `
+                <div class="swiper-wrapper"></div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            `;
+            const divSwiperWrapper = divImgSwiper.querySelector('.swiper-wrapper');
+            
+            //TODO : imgList forEach 돌릴 예정
+            const imgObj = item.imgList[0];
+            const divSwiperSlide = document.createElement('div');
+            divSwiperWrapper.appendChild(divSwiperSlide);
+            divSwiperSlide.classList.add('swiper-slide');
 
+            const img = document.createElement('img');
+            divSwiperSlide.appendChild(img);
+            img.className = 'w614';
+            img.src = `/static/img/feed/${item.ifeed}/${imgObj.img}`;
 
             return divContainer;
         },
