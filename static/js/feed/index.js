@@ -117,7 +117,9 @@
                 onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg_100.png"'>`;
 
             divTop.innerHTML = `
-                <div class="d-flex flex-column justify-content-center">${writerImg}</div>
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="circleimg h40 w40">${writerImg}</div>
+                </div>
                 <div class="p-3 flex-grow-1">
                     <div><span class="pointer" onclick="moveToProfile(${item.iuser});">${item.writer}</span> - ${regDtInfo}</div>
                     <div>${item.location === null ? '' : item.location}</div>
