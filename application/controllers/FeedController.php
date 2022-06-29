@@ -40,6 +40,19 @@ class FeedController extends Controller {
 
                 }
                 return ["result" => 1];
+            
+            
+            case _GET:
+                $page = 1;
+                if(isset($_GET["page"])) {
+                    $page = intval($_GET["page"]);
+                }
+                $startIdx = ($page - 1) * _FEED_ITEM_CNT;
+                $param = [
+                    "startIdx" => $startIdx,
+                    "iuser" => getIuser()
+                ];                
+                return $this->model->selFeedList($param);
         }
     }
 }

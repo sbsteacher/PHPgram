@@ -22,21 +22,19 @@ class Controller {
 
         $this->model = $model;
         $view = $this->$action();
-        if(empty($view)) {
+        if(empty($view) && gettype($view) === "string") {
             echo "Controller 에러 발생";
             exit();
         }
 
         if(gettype($view) === "string") {
             require_once $this->getView($view);             
-        } else if(gettype($view) === "object" || gettype($view) === "array") {
+        } else if(gettype($view) === "object" || gettype($view) === "array") {            
             header("Content-Type:application/json");
             echo json_encode($view);
         }        
     }
-    private function chkLoginUrl() {
-
-    }
+    
     
     protected function addAttribute($key, $val) {
         $this->$key = $val;
