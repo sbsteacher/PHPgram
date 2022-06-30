@@ -72,6 +72,10 @@
         });
     }
 
+    function moveToFeedWin(iuser) {
+        location.href = `/user/feedwin?iuser=${iuser}`;
+    }
+
     
     const feedObj = {
         limit: 20,
@@ -132,13 +136,20 @@
 
             divTop.innerHTML = `
                 <div class="d-flex flex-column justify-content-center">
-                    <div class="circleimg h40 w40">${writerImg}</div>
+                    <div class="circleimg h40 w40 pointer feedwin">${writerImg}</div>
                 </div>
                 <div class="p-3 flex-grow-1">
-                    <div><span class="pointer" onclick="moveToProfile(${item.iuser});">${item.writer}</span> - ${regDtInfo}</div>
+                    <div><span class="pointer feedwin">${item.writer}</span> - ${regDtInfo}</div>
                     <div>${item.location === null ? '' : item.location}</div>
                 </div>
             `;
+
+            const feedwinList = divTop.querySelectorAll('.feedwin');
+            feedwinList.forEach(el => {
+                el.addEventListener('click', () => {
+                    moveToFeedWin(item.iuser);
+                });
+            });
 
             const divImgSwiper = document.createElement('div');
             divContainer.appendChild(divImgSwiper);
