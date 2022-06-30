@@ -178,15 +178,34 @@
 
             const divFav = document.createElement('div');
             divContainer.appendChild(divFav);
-            divFav.className = 'p-2 d-none';
+            divFav.className = 'p-3 d-none';
             const spanFavCnt = document.createElement('span');
             divFav.appendChild(spanFavCnt);
             spanFavCnt.className = 'bold';
             spanFavCnt.innerHTML = `좋아요 ${item.favCnt}개`;
 
             if(item.favCnt > 0) { divFav.classList.remove('d-none'); }
-            
 
+            if(item.ctnt !== null && item.ctnt !== '') {
+                const divCtnt = document.createElement('div');
+                divContainer.appendChild(divCtnt);
+                divCtnt.innerText = item.ctnt;
+                divCtnt.className = 'itemCtnt p-3';
+            }
+
+            const divCmtList = document.createElement('div');
+            divContainer.appendChild(divCmtList);
+
+            const divCmt = document.createElement('div');
+            divContainer.appendChild(divCmt);                  
+            const divCmtForm = document.createElement('div');
+            divCmtForm.className = 'd-flex flex-row';     
+            divCmt.appendChild(divCmtForm);
+
+            divCmtForm.innerHTML = `
+                <input type="text" class="flex-grow-1 my_input back_color p-2" placeholder="댓글을 입력하세요...">
+                <button type="button" class="btn btn-outline-primary">등록</button>
+            `;
 
             return divContainer;
         },
