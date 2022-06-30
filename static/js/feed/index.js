@@ -138,15 +138,19 @@
             const divSwiperWrapper = divImgSwiper.querySelector('.swiper-wrapper');
             
             //TODO : imgList forEach 돌릴 예정
-            const imgObj = item.imgList[0];
-            const divSwiperSlide = document.createElement('div');
-            divSwiperWrapper.appendChild(divSwiperSlide);
-            divSwiperSlide.classList.add('swiper-slide');
+            item.imgList.forEach(function(imgObj) {
+                const divSwiperSlide = document.createElement('div');
+                divSwiperWrapper.appendChild(divSwiperSlide);
+                divSwiperSlide.classList.add('swiper-slide');
+    
+                const img = document.createElement('img');
+                divSwiperSlide.appendChild(img);
+                img.className = 'w100p_mw614';
+                img.src = `/static/img/feed/${item.ifeed}/${imgObj.img}`;
+            });
 
-            const img = document.createElement('img');
-            divSwiperSlide.appendChild(img);
-            img.className = 'w614';
-            img.src = `/static/img/feed/${item.ifeed}/${imgObj.img}`;
+            
+            
 
             return divContainer;
         },
