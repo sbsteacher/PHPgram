@@ -77,6 +77,7 @@
         limit: 20,
         itemLength: 0,
         currentPage: 1,
+        swiper: null,
         loadingElem: document.querySelector('.loading'),
         containerElem: document.querySelector('#item_container'),
         getFeedList: function() {
@@ -101,6 +102,19 @@
                     this.containerElem.appendChild(divItem);
                 });
             }
+            
+            if(this.swiper !== null) { this.swiper = null; }
+            this.swiper = new Swiper('.swiper', {
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev'
+                },
+                pagination: { el: '.swiper-pagination' },
+                allowTouchMove: false,
+                direction: 'horizontal',
+                loop: false
+            });
+
             this.hideLoading();
         },
         makeFeedItem: function(item) {
@@ -130,14 +144,13 @@
             divContainer.appendChild(divImgSwiper);
             divImgSwiper.className = 'swiper item_img';
             divImgSwiper.innerHTML = `
-                <div class="swiper-wrapper"></div>
+                <div class="swiper-wrapper align-items-center"></div>
                 <div class="swiper-pagination"></div>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
             `;
             const divSwiperWrapper = divImgSwiper.querySelector('.swiper-wrapper');
-            
-            //TODO : imgList forEach 돌릴 예정
+                        
             item.imgList.forEach(function(imgObj) {
                 const divSwiperSlide = document.createElement('div');
                 divSwiperWrapper.appendChild(divSwiperSlide);
@@ -149,8 +162,31 @@
                 img.src = `/static/img/feed/${item.ifeed}/${imgObj.img}`;
             });
 
+            const divBtns = document.createElement('div');
+            divContainer.appendChild(divBtns);
+            divBtns.className = 'favCont p-3 d-flex flex-row';
+
+            const heartIcon = document.createElement('i');
+            divBtns.appendChild(heartIcon);
+            heartIcon.className = 'fa-heart pointer rem1_5 me-3';
+            heartIcon.classList.add(item.isFav === 1 ? 'fas' : 'far');
             
+            const divDm = document.createElement('div');
+            divBtns.appendChild(divDm);
+            divDm.className = 'pointer';
+            divDm.innerHTML = `<svg aria-label="다이렉트 메시지" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>`;
+
+            const divFav = document.createElement('div');
+            divContainer.appendChild(divFav);
+            divFav.className = 'p-2 d-none';
+            const spanFavCnt = document.createElement('span');
+            divFav.appendChild(spanFavCnt);
+            spanFavCnt.className = 'bold';
+            spanFavCnt.innerHTML = `좋아요 ${item.favCnt}개`;
+
+            if(item.favCnt > 0) { divFav.classList.remove('d-none'); }
             
+
 
             return divContainer;
         },
