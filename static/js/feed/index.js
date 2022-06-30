@@ -170,7 +170,36 @@
             divBtns.appendChild(heartIcon);
             heartIcon.className = 'fa-heart pointer rem1_5 me-3';
             heartIcon.classList.add(item.isFav === 1 ? 'fas' : 'far');
-            
+            heartIcon.addEventListener('click', e => {
+                
+                let method = 'POST';
+                if(item.isFav === 1) { //delete (1은 0으로 바꿔줘야 함)
+                    method = 'DELETE';
+                }
+
+                fetch(`/feed/fav/${item.ifeed}`, {
+                    'method': method,
+                }).then(res => res.json())
+                .then(res => {                    
+                    if(res.result) {
+                        item.isFav = 1 - item.isFav; // 0 > 1, 1 > 0
+                        if(item.isFav === 0) { // 좋아요 취소
+                            heartIcon.classList.remove('fas');
+                            heartIcon.classList.add('far');
+                        } else { // 좋아요 처리
+                            heartIcon.classList.remove('far');
+                            heartIcon.classList.add('fas');
+                        }
+                    } else {
+                        alert('좋아요를 할 수 없습니다.');
+                    }
+                })
+                .catch(e => {
+                    alert('네트워크에 이상이 있습니다.');
+                });
+            });
+
+
             const divDm = document.createElement('div');
             divBtns.appendChild(divDm);
             divDm.className = 'pointer';
