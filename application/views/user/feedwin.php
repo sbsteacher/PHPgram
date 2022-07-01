@@ -8,7 +8,26 @@
                 </div>
             </div>            
             <div class="flex-grow-1 d-flex flex-column justify-content-evenly">
-                <div><?=$this->data->email?>  </div>
+                <div><?=$this->data->email?>
+                    <?php
+                        if($this->data->iuser === getIuser()) {
+                            echo '<button type="button" id="btnModProfile" class="btn btn-outline-secondary">프로필 수정</button>';
+                        } else {                            
+                            $data_follow = 0;
+                            $cls = "btn-primary";
+                            $txt = "팔로우";
+
+                            if($this->data->meyou === 1) {
+                                $data_follow = 1;
+                                $cls = "btn-outline-secondary";
+                                $txt = "팔로우 취소";
+                            } else if($this->data->youme === 1 && $this->data->meyou === 0) {
+                                $txt = "맞팔로우 하기";
+                            }
+                            echo "<button type='button' id='btnFollow' data-follow='{$data_follow}' class='btn {$cls}'>{$txt}</button>";
+                        }
+                    ?>
+                </div>
                 <div class="d-flex flex-row">
                     <div class="flex-grow-1 me-3">게시물 <span class="bold"><?=$this->data->feedcnt?></span></div>
                     <div class="flex-grow-1 me-3">팔로워 <span class="bold">245</span></div>
