@@ -2,13 +2,23 @@
     <div class="size_box_100"></div>
     <div class="w100p_mw614">
         <div class="d-flex flex-row">            
-            <div class="d-flex flex-column justify-content-center">                
+            <div class="d-flex flex-column justify-content-center me-3">                
                 <div class="circleimg h150 w150 pointer feedwin">                    
                     <img data-bs-toggle="modal" data-bs-target="#changeProfileImgModal" src='/static/img/profile/<?=$this->data->iuser?>/<?=$this->data->mainimg?>' onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg_100.png"'>
                 </div>
             </div>            
-            <div></div>
+            <div class="flex-grow-1 d-flex flex-column justify-content-evenly">
+                <div><?=$this->data->email?>  </div>
+                <div class="d-flex flex-row">
+                    <div class="flex-grow-1 me-3">게시물 <span class="bold"><?=$this->data->feedcnt?></span></div>
+                    <div class="flex-grow-1 me-3">팔로워 <span class="bold">245</span></div>
+                    <div class="flex-grow-1">팔로우 <span class="bold">209</span></div>
+                </div>
+                <div class="bold"><?=$this->data->nm?></div>
+                <div><?=$this->data->cmt?></div>
+            </div>
         </div>
+
     </div>
 </div>
 
