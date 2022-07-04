@@ -72,7 +72,7 @@ class UserController extends Controller {
             $startIdx = ($page - 1) * _FEED_ITEM_CNT;
             $param = [
                 "startIdx" => $startIdx,
-                "iuser" => getIuser()
+                "iuser" => $_GET["iuser"]
             ];        
             $list = $this->model->selFeedList($param);
             foreach($list as $item) {                 
