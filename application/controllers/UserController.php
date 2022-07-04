@@ -60,16 +60,19 @@ class UserController extends Controller {
         return "template/t1.php"; 
     }
 
-    public function follow() {        
+    public function follow() {    
+         
         $param = [
-            "fromiuser" => getIuser(),
-            "toiuser" => $_REQUEST["toiuser"]
+            "fromiuser" => getIuser()
         ];
 
         switch(getMethod()) {
             case _POST:                                
+                $json = getJson();
+                $param["toiuser"] = $json["toiuser"];
                 return [_RESULT => $this->model->insUserFollow($param)];
-            case _DELETE:                
+            case _DELETE:        
+                $param["toiuser"] = $_GET["toiuser"];
                 return [_RESULT => $this->model->delUserFollow($param)];
         }
     }
