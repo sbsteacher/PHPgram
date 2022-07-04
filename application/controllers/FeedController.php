@@ -52,7 +52,7 @@ class FeedController extends Controller {
                 $param = [
                     "startIdx" => $startIdx,
                     "iuser" => getIuser()
-                ];    
+                ];
                 $list = $this->model->selFeedList($param);                
                 foreach($list as $item) {                 
                     $item->imgList = $this->model->selFeedImgList($item);

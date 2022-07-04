@@ -38,8 +38,9 @@
                 <div><?=$this->data->cmt?></div>
             </div>
         </div>
-
+        <div id="item_container"></div>
     </div>
+    <div class="loading d-none"><img src="/static/img/loading.gif"></div>
 </div>
 
 <!-- 프로필 사진 바꾸기 -->

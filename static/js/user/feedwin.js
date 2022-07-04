@@ -1,3 +1,23 @@
+function getFeedList() {
+    if(!feedObj) { return; }
+    feedObj.showLoading();            
+    const param = {
+        page: feedObj.currentPage++
+    }
+    fetch('/user/feed' + encodeQueryString(param))
+    .then(res => res.json())
+    .then(list => {                
+        feedObj.makeFeedList(list);                
+    })
+    .catch(e => {
+        console.error(e);
+        feedObj.hideLoading();
+    });
+}
+getFeedList();
+
+
+
 (function() {
     const gData = document.querySelector('#gData');
 
@@ -20,11 +40,28 @@
                             btnFollow.dataset.follow = '0';
                             btnFollow.classList.remove('btn-outline-secondary');
                             btnFollow.classList.add('btn-primary');
-                            btnFollow.innerText = '팔로우';
+                            if(btnFollow.dataset.youme === '1') {
+                                btnFollow.innerText = '맞팔로우 하기';
+                            } else {
+                                btnFollow.innerText = '팔로우';
+                            }                            
                         }
                     });
                     break;
                 case '0': //팔로우 등록
+                    fetch(followUrl, {
+                        method: 'POST',
+                        body: JSON.stringify(param)
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        if(res.result) {
+                            btnFollow.dataset.follow = '1';
+                            btnFollow.classList.remove('btn-primary');
+                            btnFollow.classList.add('btn-outline-secondary');
+                            btnFollow.innerText = '팔로우 취소';
+                        }
+                    });
                     break;
             }
         });
