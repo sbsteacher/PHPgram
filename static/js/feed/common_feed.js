@@ -5,6 +5,33 @@ const feedObj = {
     swiper: null,
     loadingElem: document.querySelector('.loading'),
     containerElem: document.querySelector('#item_container'), 
+    insFeedCmt: function(param, inputCmt, divCmtList, spanMoreCmt) {
+        fetch('/feedcmt/index', {
+            method: 'POST',
+            body: JSON.stringify(param)
+        })
+        .then(res => res.json())
+        .then(res => {            
+            if(res.result) {
+                inputCmt.value = '';                    
+                this.getFeedCmtList(param.ifeed, divCmtList, spanMoreCmt);
+            }
+        });
+    },
+    getFeedCmtList: function(ifeed, divCmtList, spanMoreCmt) {
+        fetch(`/feedcmt/index?ifeed=${ifeed}`)
+        .then(res => res.json())
+        .then(res => {
+            if(res && res.length > 0) {
+                if(spanMoreCmt) { spanMoreCmt.remove(); }
+                divCmtList.innerHTML = null;
+                res.forEach(item => {
+                    const divCmtItem = this.makeCmtItem(item);
+                    divCmtList.appendChild(divCmtItem);
+                });
+            }
+        });
+    },
     makeCmtItem: function(item) {
         const divCmtItemContainer = document.createElement('div');
         divCmtItemContainer.className = 'd-flex flex-row align-items-center mb-2';
@@ -161,6 +188,8 @@ const feedObj = {
         const divCmt = document.createElement('div');
         divContainer.appendChild(divCmt);  
 
+        const spanMoreCmt = document.createElement('span');
+
         if(item.cmt) {
             const divCmtItem = this.makeCmtItem(item.cmt);
             divCmtList.appendChild(divCmtItem);
@@ -169,30 +198,15 @@ const feedObj = {
                 const divMoreCmt = document.createElement('div');
                 divCmt.appendChild(divMoreCmt);
                 divMoreCmt.className = 'ms-3 mb-3';
-    
-                const spanMoreCmt = document.createElement('span');
+                    
                 divMoreCmt.appendChild(spanMoreCmt);
                 spanMoreCmt.className = 'pointer rem0_9 c_lightgray';
                 spanMoreCmt.innerText = '댓글 더보기..';
                 spanMoreCmt.addEventListener('click', e => {
-                    fetch(`/feedcmt/index?ifeed=${item.ifeed}`)
-                    .then(res => res.json())
-                    .then(res => {
-                        if(res && res.length > 0) {
-                            spanMoreCmt.remove();
-                            divCmtList.innerHTML = null;
-                            res.forEach(item => {
-                                const divCmtItem = this.makeCmtItem(item);
-                                divCmtList.appendChild(divCmtItem);
-                            });
-                        }
-                    });
+                    this.getFeedCmtList(item.ifeed, divCmtList, spanMoreCmt);
                 });
-    
             }
-        }
-
-        
+        }        
         
         const divCmtForm = document.createElement('div');
         divCmtForm.className = 'd-flex flex-row';     
@@ -202,27 +216,16 @@ const feedObj = {
             <input type="text" class="flex-grow-1 my_input back_color p-2" placeholder="댓글을 입력하세요...">
             <button type="button" class="btn btn-outline-primary">등록</button>
         `;
+        
         const inputCmt = divCmtForm.querySelector('input');
+        
         const btnCmtReg = divCmtForm.querySelector('button');
         btnCmtReg.addEventListener('click', e => {
-
             const param = {
                 ifeed: item.ifeed,
                 cmt: inputCmt.value
             };
-            fetch('/feedcmt/index', {
-                method: 'POST',
-                body: JSON.stringify(param)
-            })
-            .then(res => res.json())
-            .then(res => {
-                console.log('icmt : ' + res.result);
-                if(res.result) {
-                    inputCmt.value = '';
-                    //댓글 공간에 댓글 내용 추가
-                }
-            });
-            
+            this.insFeedCmt(param, inputCmt, divCmtList, spanMoreCmt);
         });
 
         return divContainer;
