@@ -175,7 +175,18 @@ const feedObj = {
                 spanMoreCmt.className = 'pointer rem0_9 c_lightgray';
                 spanMoreCmt.innerText = '댓글 더보기..';
                 spanMoreCmt.addEventListener('click', e => {
-                    
+                    fetch(`/feedcmt/index?ifeed=${item.ifeed}`)
+                    .then(res => res.json())
+                    .then(res => {
+                        if(res && res.length > 0) {
+                            spanMoreCmt.remove();
+                            divCmtList.innerHTML = null;
+                            res.forEach(item => {
+                                const divCmtItem = this.makeCmtItem(item);
+                                divCmtList.appendChild(divCmtItem);
+                            });
+                        }
+                    });
                 });
     
             }

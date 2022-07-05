@@ -38,7 +38,7 @@ class FeedCmtModel extends Model {
 
     public function selFeedCmtList(&$param) {
         $sql = "SELECT A.icmt, A.cmt, A.regdt
-                     , B.iuser, B.nm, B.mainimg
+                     , B.iuser, B.nm AS writer, B.mainimg AS writerimg
                   FROM t_feed_cmt A
                  INNER JOIN t_user B
                     ON A.iuser = B.iuser
