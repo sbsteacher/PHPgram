@@ -7,6 +7,8 @@ const feedObj = {
     iuser: 0,
     setScrollInfinity: function() {
         window.addEventListener('scroll', e => {
+            if(this.isLoading()) { return; }
+
             const {
                 scrollTop,
                 scrollHeight,
@@ -72,7 +74,7 @@ const feedObj = {
         const src = '/static/img/profile/' + (item.writerimg ? `${item.iuser}/${item.writerimg}` : 'defaultProfileImg_100.png');
         divCmtItemContainer.innerHTML = `
             <div class="circleimg h24 w24 me-1">
-                <img src="${src}" class="profile w24 pointer">                
+                <img src="${src}" class="profile w24 pointer profileimg">                
             </div>
             <div class="d-flex flex-row">
                 <div class="pointer me-2">${item.writer} - <span class="rem0_8">${getDateTimeInfo(item.regdt)}</span></div>
@@ -105,7 +107,7 @@ const feedObj = {
 
         const regDtInfo = getDateTimeInfo(item.regdt);
         divTop.className = 'd-flex flex-row ps-3 pe-3';
-        const writerImg = `<img src='/static/img/profile/${item.iuser}/${item.mainimg}' 
+        const writerImg = `<img class="profileimg" src='/static/img/profile/${item.iuser}/${item.mainimg}' 
             onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg_100.png"'>`;
 
         divTop.innerHTML = `
@@ -171,10 +173,17 @@ const feedObj = {
                     if(item.isFav === 0) { // 좋아요 취소
                         heartIcon.classList.remove('fas');
                         heartIcon.classList.add('far');
+                        item.favCnt--;
+                        if(item.favCnt === 0) {
+                            divFav.classList.add('d-none');
+                        }
                     } else { // 좋아요 처리
                         heartIcon.classList.remove('far');
                         heartIcon.classList.add('fas');
+                        item.favCnt++;
+                        divFav.classList.remove('d-none');
                     }
+                    spanFavCnt.innerHTML = `좋아요 ${item.favCnt}개`;
                 } else {
                     alert('좋아요를 할 수 없습니다.');
                 }
@@ -272,7 +281,8 @@ const feedObj = {
     },
 
     showLoading: function() { this.loadingElem.classList.remove('d-none'); },
-    hideLoading: function() { this.loadingElem.classList.add('d-none'); }
+    hideLoading: function() { this.loadingElem.classList.add('d-none'); },
+    isLoading: function() { return !this.loadingElem.classList.contains('d-none'); }
 
 }
 
