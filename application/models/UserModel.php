@@ -77,8 +77,7 @@ class UserModel extends Model {
                     , IF(F.ifeed IS NULL, 0, 1) AS isFav
                 FROM t_feed A
                 INNER JOIN t_user C
-                ON A.iuser = C.iuser
-                AND C.iuser = :toiuser
+                ON A.iuser = C.iuser                
                 LEFT JOIN 
                     (
                         SELECT ifeed, COUNT(ifeed) AS cnt 
@@ -92,7 +91,8 @@ class UserModel extends Model {
                         FROM t_feed_fav
                         WHERE iuser = :loginiuser
                     ) F
-                ON A.ifeed = F.ifeed
+                ON A.ifeed = F.ifeed     
+                WHERE C.iuser = :toiuser 
                 ORDER BY A.ifeed DESC
                 LIMIT :startIdx, :feedItemCnt";
         $stmt = $this->pdo->prepare($sql);

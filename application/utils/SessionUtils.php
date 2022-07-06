@@ -6,7 +6,7 @@
     }
 
     function getIuser() {
-        return getLoginUser() === null ? null : getLoginUser()->iuser;
+        return getLoginUser() === null ? 0 : getLoginUser()->iuser;
     }
 
     function getMainImgSrc() {

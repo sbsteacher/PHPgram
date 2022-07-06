@@ -1,7 +1,15 @@
-const url = new URL(location.href);
 
+
+if(feedObj) { 
+    const url = new URL(location.href);
+    feedObj.iuser = parseInt(url.searchParams.get('iuser'));
+    feedObj.getFeedUrl = '/user/feed';
+    feedObj.getFeedList();
+}
+    
+/*
 function getFeedList() {    
-    if(!feedObj) { return; }
+    
     feedObj.showLoading();            
     const param = {
         page: feedObj.currentPage++,        
@@ -18,9 +26,10 @@ function getFeedList() {
     });
 }
 getFeedList();
-
+*/
 
 (function() {
+    const spanCntFollower = document.querySelector('#spanCntFollower');
     const lData = document.querySelector('#lData');
 
     const btnFollow = document.querySelector('#btnFollow');
@@ -39,6 +48,10 @@ getFeedList();
                     .then(res => res.json())
                     .then(res => {                        
                         if(res.result) {
+                            //팔로워 숫자 변경
+                            const cntFollowerVal = parseInt(spanCntFollower.innerText);
+                            spanCntFollower.innerText = cntFollowerVal - 1;
+
                             btnFollow.dataset.follow = '0';
                             btnFollow.classList.remove('btn-outline-secondary');
                             btnFollow.classList.add('btn-primary');
@@ -58,6 +71,10 @@ getFeedList();
                     .then(res => res.json())
                     .then(res => {
                         if(res.result) {
+                            //팔로워 숫자 변경
+                            const cntFollowerVal = parseInt(spanCntFollower.innerText);
+                            spanCntFollower.innerText = cntFollowerVal + 1;
+
                             btnFollow.dataset.follow = '1';
                             btnFollow.classList.remove('btn-primary');
                             btnFollow.classList.add('btn-outline-secondary');
