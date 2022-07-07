@@ -13,7 +13,7 @@ class Application{
 
     public function __construct() {        
         $urlPaths = getUrlPaths();
-        $controller = isset($urlPaths[0]) && $urlPaths[0] != '' ? $urlPaths[0] : 'board';
+        $controller = isset($urlPaths[0]) && $urlPaths[0] != '' ? $urlPaths[0] : 'feed';
         $action = isset($urlPaths[1]) && $urlPaths[1] != '' ? $urlPaths[1] : 'index';
 
         if (!file_exists('application/controllers/'. $controller .'Controller.php')) {
