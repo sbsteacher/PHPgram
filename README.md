@@ -2,8 +2,14 @@
   
   composer dump-autoload
 
+
+
+
 # 웹소켓 서버 실행 (CLI에서)
   php socketRun.php
+
+
+
 
 # 웹소켓 서버 실행시 xdebug 에러 발생 시
   
