@@ -1,3 +1,11 @@
+# composer 설치
+  - https://techhans.tistory.com/57
+  - http://getcomposer.org/download
+
+
+# ratchet 라이브러리 설치
+  composer require cboden/ratchet
+
 # composer.json, autoload 적용
   
   composer dump-autoload
